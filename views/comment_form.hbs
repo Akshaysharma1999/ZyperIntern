@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
 <body>
-    <div>
-        <form action="/comment" method="post">
-            <input type="text" placeholder="message" name="message">
-            <input type="submit">
-        </form>
-    </div>
+    <center>
+        <div class="container" style="margin-top: 140px;">
+            <div>
+                <h1 class="mb-3">ADD COMMENT</h1>
+            </div>
+            <form action="/comment" method="post">
+                <div class="mb-3"><input type="text" placeholder="message" name="message"></div>
+                <div class="mb-3"><input class="btn btn-success" type="submit"></div>
+            </form>
+        </div>
+    </center>
 </body>
+
 </html>

@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
-    <div>
+    <center>
+    <div class="conatiner " style="margin-top: 140px;">
+        <div><h1>EDIT USER</h1></div>
         <form action="/edit" method="post">
             <input type="hidden" value="{{user._id}}" name="_id">
             <div class="mb-3"><input placeholder="name" type="text" name="name" value="{{user.name}}"></div>
@@ -18,10 +22,11 @@
             <div class="mb-3"><input placeholder="address" type="text" name="address"value="{{user.address}}"></div>
             <div class="mb-3"><input placeholder="designation" type="text" name="designation" value="{{user.designation}}"></div>
             <div class="mb-3"><input placeholder="interests" type="text" name="interests" value="{{user.interests}}"></div>
-            <div class="mb-3"><input  type="submit"></div>
+            <div class="mb-3"><input class="btn btn-success" type="submit"></div>
 
         </form>
     </div>
+    </center>
 </body>
 
 </html>

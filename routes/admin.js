@@ -141,7 +141,7 @@ route.get('/f_comment/:id',(req,res,next)=>{
     })
 })
 
-route.get('/f_comment/t_comment/:id',(req,res,next)=>{
+route.get('/t_comment/:id',(req,res,next)=>{
     to = req.params.id
     res.render('comment_form')
 })
@@ -176,10 +176,12 @@ route.get('/getComments',(req,res,next)=>{
 
 route.get('/getComments/:id',(req,res,next)=>{
         
-        Comment.find({by:req.params.id},(err,comments)=>{
+        Comment.find({by:req.params.id})
+        .populate('to by ')
+        .exec((err,comments)=>{
             if(err) next (err)
-
-            res.send(comments)
+            // console.log(comments)
+            res.render('getCommentsdisp',{Comments:comments})
         })
 
 })
