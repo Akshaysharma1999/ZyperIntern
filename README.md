@@ -12,7 +12,6 @@
 	"interests":["coding","fortnite"]	
 }
 
-// for entering interests use this format
-// example:
-// 
-// coding,fortnite
+ for entering interests use this format
+example:
+ coding,fortnite
