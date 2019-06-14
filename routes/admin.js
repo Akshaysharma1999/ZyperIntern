@@ -2,6 +2,11 @@ const route = require('express').Router()
 const User = require('../models/user')
 const Comment = require('../models/comment')
 
+
+route.get('/',(req,res,next)=>{
+    res.render('home')
+})
+
 route.get('/add',(req,res,next)=>{
     res.render('add')
 })
