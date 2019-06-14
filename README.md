@@ -12,7 +12,9 @@
 	"interests":["coding","fortnite"]	
 }
 
- for entering interests use this format
+https://zypherintern.herokuapp.com/
+
+for entering interests use this format
 example:
  coding,fortnite
  
