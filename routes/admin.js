@@ -2,6 +2,10 @@ const route = require('express').Router()
 const User = require('../models/user')
 const Comment = require('../models/comment')
 
+route.get('/add',(req,res,next)=>{
+    res.render('add')
+})
+
 route.post('/add', (req, res, next) => {
     console.log(req.body)
 
@@ -12,8 +16,10 @@ route.post('/add', (req, res, next) => {
     user.phoneNum = req.body.phoneNum
     user.designation = req.body.designation
 
-    for (let i = 0; i < req.body.interests.length; i++) {
-        user.interests.push(req.body.interests[i])
+    let interests = req.body.interests.split(',')
+
+    for (let i = 0; i < interests.length; i++) {
+        user.interests.push(interests[i])
     }
 
     User.findOne({ email: req.body.email }, (err, existinguser) => {
@@ -29,17 +35,34 @@ route.post('/add', (req, res, next) => {
                     return next(err)
                 }
                 console.log("added succesfully")
-                res.send("added successfully")
+                // res.send("added successfully")
+                res.redirect('/')
             })
 
         }
     })
 })
 
+route.get('/edit',(req,res,next)=>{
+
+    User.find({},(err,users)=>{
+        if(err) next(err)
+
+        res.render('edit_page',{users:users})
+    })
+})
+
+route.get('/edit/:id',(req,res,next)=>{
+   console.log(req.params.id)
+   User.findOne({_id:req.params.id},(err,user)=>{
+       if(err) next(err)
+       res.render('edit_user',{user:user})
+   })
+})
+
 route.post('/edit', (req, res, next) => {
-
+    
     User.findOne({ _id: req.body._id }, (err, user) => {
-
         if (err) return next(err)
 
         if (req.body.name) user.name = req.body.name
@@ -50,34 +73,42 @@ route.post('/edit', (req, res, next) => {
 
         if (req.body.designation) user.designation = req.body.designation
 
-        if (req.body.interests) {
+        let interests = req.body.interests.split(',')
 
-            for (let i = 0; i < req.body.interests.length; i++) {
-                user.interests.push(req.body.interests[i])
+
+        if (interests) {
+
+            for (let i = 0; i < interests.length; i++) {
+                user.interests.push(interests[i])
             }
         }
-
-
         user.save((err) => {
             if (err) return next(err)
 
             res.send("updated successfully ")
         })
-
     })
-
 })
 
+route.get('/delete',(req,res,next)=>{
+    User.find({},(err,users)=>{
+        if(err) next(err)
+        res.render('delete_page',{users:users})
+    })
+})
 
-route.post('/delete', (req, res, next) => {
+route.get('/delete/:id', (req, res, next) => {
 
-    User.deleteOne({ _id: req.body._id }, (err) => {
+    User.deleteOne({ _id: req.params.id }, (err) => {
         if (err) next(err)
 
         res.send("deleted successfully")
     })
 })
 
+route.get('/query',(req,res,next)=>{
+    res.render('query')
+})
 
 route.post('/query', (req, res, next) => {
 
@@ -87,15 +118,38 @@ route.post('/query', (req, res, next) => {
     })
 })
 
+route.get('/comment',(req,res,next)=>{
+    User.find({},(err,users)=>{
+        if(err) next(err)
+
+        res.render('comment_page',{users:users})
+    })
+})
+
+let from ,to
+route.get('/f_comment/:id',(req,res,next)=>{
+    from = req.params.id
+    User.find({},(err,users)=>{
+        if(err) next(err)
+        res.render('tcomment_page',{users:users})
+    })
+})
+
+route.get('/f_comment/t_comment/:id',(req,res,next)=>{
+    to = req.params.id
+    res.render('comment_form')
+})
+
 route.post('/comment', (req, res, next) => {
 
     const comment = new Comment
     comment.message = req.body.message
-    comment.author = req.body.user_id
+    comment.to = to
+    comment.by = from
 
     comment.save((err) => {
         if (err) next(err)
-        User.findOne({ _id: req.body.user_id }, (err, user) => {
+        User.findOne({ _id: to }, (err, user) => {
             // console.log(user.comments)
             user.comments.push(comment)
             user.save(()=>{
@@ -104,8 +158,22 @@ route.post('/comment', (req, res, next) => {
         })
 
       })
+})
 
+route.get('/getComments',(req,res,next)=>{
+    User.find({},(err,users)=>{
+        if(err) next(err)
+        res.render('getComments',{users:users})
+    })
+})
 
+route.get('/getComments/:id',(req,res,next)=>{
+        
+        Comment.find({by:req.params.id},(err,comments)=>{
+            if(err) next (err)
+
+            res.send(comments)
+        })
 
 })
 
