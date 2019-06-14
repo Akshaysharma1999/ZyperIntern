@@ -89,8 +89,8 @@ route.post('/edit', (req, res, next) => {
         }
         user.save((err) => {
             if (err) return next(err)
-
-            res.send("updated successfully ")
+            console.log("updated successfully ")
+            res.redirect('/')
         })
     })
 })
@@ -107,7 +107,8 @@ route.get('/delete/:id', (req, res, next) => {
     User.deleteOne({ _id: req.params.id }, (err) => {
         if (err) next(err)
 
-        res.send("deleted successfully")
+        console.log("deleted successfully")
+      res.redirect('/')
     })
 })
 
@@ -117,9 +118,9 @@ route.get('/query',(req,res,next)=>{
 
 route.post('/query', (req, res, next) => {
 
-    User.find({ interests: req.body.query }, (err, user) => {
-        console.log(user)
-        res.send(user)
+    User.find({ interests: req.body.query }, (err, users) => {
+        console.log(users)
+        res.render('query_users',{users:users})
     })
 })
 
@@ -158,7 +159,8 @@ route.post('/comment', (req, res, next) => {
             // console.log(user.comments)
             user.comments.push(comment)
             user.save(()=>{
-                res.send("comment added successfully")
+                console.log("comment added successfully")
+                res.redirect('/')
             })
         })
 
